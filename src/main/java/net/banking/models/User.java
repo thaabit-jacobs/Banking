@@ -9,6 +9,32 @@ public class User {
     private String email;
     private LocalDateTime dateCreated;
 
+    public User(){
+
+    }
+
+    public User(int id, String firstName, String lastName, String email, LocalDateTime dateCreated) {
+        if(id <= 0)
+            throw new IllegalArgumentException("invalid id supplied");
+        this.id = id;
+
+        if(firstName == null || firstName.trim().length() == 0)
+            throw new IllegalArgumentException("invalid firstName supplied");
+        this.firstName = firstName;
+
+        if(lastName == null || lastName.trim().length() == 0)
+            throw new IllegalArgumentException("invalid lastName supplied");
+        this.lastName = lastName;
+
+        if(email == null || email.trim().length() == 0 || !email.contains("@"))
+            throw new IllegalArgumentException("invalid email supplied");
+        this.email = email;
+
+        if(dateCreated == null)
+            throw new IllegalArgumentException("invalid dateCreated supplied");
+        this.dateCreated = dateCreated;
+    }
+
     public int getId() {
         return id;
     }
