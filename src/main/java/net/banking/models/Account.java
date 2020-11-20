@@ -85,4 +85,29 @@ public class Account {
             throw new IllegalArgumentException("invalid dateCreated supplied");
         this.dateCreated = dateCreated;
     }
+
+    @Override
+    public String toString() {
+        return "Account{ \n" +
+                "  id=" + id +
+                ", \n accountNumber='" + accountNumber + '\'' +
+                ", \n accountType='" + accountType + '\'' +
+                ", \n balance=" + balance +
+                ", \n dateCreated=" + dateCreated +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(! (obj instanceof Account))
+            return false;
+
+        Account account = (Account)obj;
+        return this.accountNumber.equals(account.accountNumber);
+    }
+
+    @Override
+    public int hashCode(){
+        return id;
+    }
 }
