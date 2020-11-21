@@ -13,7 +13,7 @@ public class TransactionActionTest {
 
 
     private TransactionAction transactionAction = TransactionAction.getInstance();
-    private Account accountOne = new Account(1,"3555426104730148", AccountType.SAVINGS.toString(), 150.00, LocalDateTime.now());
+    private Account accountOne = new Account(1,"3555426104730148", AccountType.SAVINGS.toString(), 150.00, LocalDateTime.now(), 1);
 
     @Test
     void shouldReturnATransactionObjectAndReturnBalanceFromAccount(){
@@ -43,7 +43,7 @@ public class TransactionActionTest {
     }
 
     @Test
-    void shouldReturnTransactionObjectWithWithDrawalAmount(){
+    void shouldReturnTransactionObjectWithWithDrawalAmountAndDeductFromAccountBanlance(){
         try{
             assertEquals(100, transactionAction.withDrawal(accountOne, 100).getTransactionAmount());
             assertEquals(50, accountOne.getBalance());
@@ -52,5 +52,20 @@ public class TransactionActionTest {
         }catch(IllegalArgumentException ie){
             assertFalse(false);
         }
+    }
+
+    @Test
+    void shouldIllgelaArgumentExceptionForAmountLess0(){
+        try{
+            transactionAction.deposit(accountOne, -150);
+        }catch(IllegalArgumentException ie){
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    void shouldReturnTRansactionWithDepositAmountAndAddToAccountBalance(){
+        assertEquals(100, transactionAction.deposit(accountOne, 100).getTransactionAmount());
+        assertEquals(250, accountOne.getBalance());
     }
 }

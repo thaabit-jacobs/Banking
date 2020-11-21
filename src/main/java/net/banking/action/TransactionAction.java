@@ -44,4 +44,19 @@ public class TransactionAction {
                 .setDateCreated(LocalDateTime.now())
                 .build();
     }
+
+    public synchronized Transaction deposit(Account account, int amount){
+        if(amount <= 0)
+            throw new IllegalArgumentException("invalid amount supplied");
+
+        double newBalance = account.getBalance() + amount;
+        account.setBalance(newBalance);
+
+        return new Transaction()
+                .setSuccess(true)
+                .setTransactionAmount(amount)
+                .setTransactioType(TransactionType.DEPOSIT.toString())
+                .setDateCreated(LocalDateTime.now())
+                .build();
+    }
 }

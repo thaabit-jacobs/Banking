@@ -10,12 +10,13 @@ public class Transaction {
     private double transactionAmount;
     private boolean isSuccess;
     private LocalDateTime dateCreated;
+    private int accountId;
 
     public Transaction(){
 
     }
 
-    public Transaction(int id, String transactioType, double transactionAmount, boolean isSuccess, LocalDateTime dateCreated) {
+    public Transaction(int id, String transactioType, double transactionAmount, boolean isSuccess, LocalDateTime dateCreated, int accountId) {
         if (id < 0)
             throw new IllegalArgumentException("invalid id supplied " + id);
         this.id = id;
@@ -31,6 +32,10 @@ public class Transaction {
         if(dateCreated == null)
             throw new IllegalArgumentException("invalid dateCreated supplied");
         this.dateCreated = dateCreated;
+
+        if (accountId < 0)
+            throw new IllegalArgumentException("invalid accountId supplied " + id);
+        this.id = id;
     }
 
     public int getId() {
@@ -91,8 +96,20 @@ public class Transaction {
         return this;
     }
 
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public Transaction setAccountId(int accountId){
+        if (accountId < 0)
+            throw new IllegalArgumentException("invalid accountId supplied");
+        this.accountId = accountId;
+
+        return this;
+    }
+
     public Transaction build(){
-        return new Transaction(id, transactioType, transactionAmount, isSuccess, dateCreated);
+        return new Transaction(id, transactioType, transactionAmount, isSuccess, dateCreated, accountId);
     }
 
     @Override

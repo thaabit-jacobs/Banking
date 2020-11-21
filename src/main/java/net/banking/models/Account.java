@@ -8,12 +8,13 @@ public class Account {
     private String accountType;
     private double balance;
     private LocalDateTime dateCreated;
+    private int userId;
 
     public Account(){
 
     }
 
-    public Account(int id, String accountNumber, String accountType, double balance, LocalDateTime dateCreated) {
+    public Account(int id, String accountNumber, String accountType, double balance, LocalDateTime dateCreated, int userId) {
         if (id <= 0)
             throw new IllegalArgumentException("invalid id supplied");
         this.id = id;
@@ -34,6 +35,10 @@ public class Account {
         if(dateCreated == null)
             throw new IllegalArgumentException("invalid dateCreated supplied");
         this.dateCreated = dateCreated;
+
+        if (userId <= 0)
+            throw new IllegalArgumentException("invalid userId supplied");
+        this.userId = userId;
     }
 
     public int getId() {
@@ -84,6 +89,16 @@ public class Account {
         if(dateCreated == null)
             throw new IllegalArgumentException("invalid dateCreated supplied");
         this.dateCreated = dateCreated;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId){
+        if (userId <= 0)
+            throw new IllegalArgumentException("invalid userId supplied");
+        this.userId = userId;
     }
 
     @Override
