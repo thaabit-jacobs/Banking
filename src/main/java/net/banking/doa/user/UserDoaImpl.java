@@ -1,4 +1,4 @@
-package net.banking.doa;
+package net.banking.doa.user;
 
 import net.banking.mappers.UserMapper;
 import net.banking.models.User;

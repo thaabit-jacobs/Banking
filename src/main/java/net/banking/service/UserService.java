@@ -1,17 +1,13 @@
 package net.banking.service;
 
-import net.banking.doa.UserDoaImpl;
+import net.banking.doa.user.UserDoaImpl;
 import net.banking.models.User;
 
 import java.util.List;
 
 public class UserService {
 
-    private final UserDoaImpl userDoaImpl;
-
-    public UserService(UserDoaImpl userDoaImpl){
-        this.userDoaImpl = userDoaImpl;
-    }
+    private final UserDoaImpl userDoaImpl = new UserDoaImpl();
 
     public boolean insertUser(User user){
        return userDoaImpl.insertUser(user);

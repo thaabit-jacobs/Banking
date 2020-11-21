@@ -6,6 +6,7 @@ import net.banking.types.AccountType;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,7 +14,7 @@ public class TransactionActionTest {
 
 
     private TransactionAction transactionAction = TransactionAction.getInstance();
-    private Account accountOne = new Account(1,"3555426104730148", AccountType.SAVINGS.toString(), 150.00, LocalDateTime.now(), 1);
+    private Account accountOne = new Account(1, UUID.fromString("cc23148a-7c53-4842-8524-5ebd151eeadd"), AccountType.SAVINGS.toString(), 150.00, LocalDateTime.now(), 1);
 
     @Test
     void shouldReturnATransactionObjectAndReturnBalanceFromAccount(){
@@ -46,7 +47,7 @@ public class TransactionActionTest {
     void shouldReturnTransactionObjectWithWithDrawalAmountAndDeductFromAccountBanlance(){
         try{
             assertEquals(100, transactionAction.withDrawal(accountOne, 100).getTransactionAmount());
-            assertEquals(50, accountOne.getBalance());
+            assertEquals(50, accountOne.getAccountBalance());
         }catch (InsufficientFundsException e){
             assertTrue(false);
         }catch(IllegalArgumentException ie){
@@ -66,6 +67,6 @@ public class TransactionActionTest {
     @Test
     void shouldReturnTRansactionWithDepositAmountAndAddToAccountBalance(){
         assertEquals(100, transactionAction.deposit(accountOne, 100).getTransactionAmount());
-        assertEquals(250, accountOne.getBalance());
+        assertEquals(250, accountOne.getAccountBalance());
     }
 }

@@ -7,7 +7,7 @@ create table if not exists users(
 
 create table if not exists accounts(
     id int primary key not null,
-    account_number varchar(255) not null,
+    account_number uuid not null,
     account_type varchar(255) not null,
     balance decimal not null,
     date_created timestamp not null,

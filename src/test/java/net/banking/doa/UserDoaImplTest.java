@@ -1,5 +1,6 @@
 package net.banking.doa;
 
+import net.banking.doa.user.UserDoaImpl;
 import net.banking.models.User;
 import org.jdbi.v3.core.Jdbi;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package net.banking.doa;
+package net.banking.doa.user;
 
 import net.banking.models.User;
 import org.jdbi.v3.sqlobject.customizer.Bind;

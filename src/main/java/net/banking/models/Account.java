@@ -1,12 +1,13 @@
 package net.banking.models;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class Account {
     private int id;
-    private String accountNumber;
+    private UUID accountNumber;
     private String accountType;
-    private double balance;
+    private double accountBalance;
     private LocalDateTime dateCreated;
     private int userId;
 
@@ -14,22 +15,20 @@ public class Account {
 
     }
 
-    public Account(int id, String accountNumber, String accountType, double balance, LocalDateTime dateCreated, int userId) {
+    public Account(int id, UUID accountNumber, String accountType, double accountBalance, LocalDateTime dateCreated, int userId) {
         if (id <= 0)
             throw new IllegalArgumentException("invalid id supplied");
         this.id = id;
 
-        if(accountNumber == null || accountNumber.trim().length() == 0)
-            throw new IllegalArgumentException("invalid accountNumber supplied");
         this.accountNumber = accountNumber;
 
         if(accountType == null || accountType.trim().length() == 0)
             throw new IllegalArgumentException("invalid accountType supplied");
         this.accountType = accountType;
 
-        if (balance < 0)
+        if (accountBalance < 0)
             throw new IllegalArgumentException("invalid balance supplied");
-        this.balance = balance;
+        this.accountBalance = accountBalance;
 
 
         if(dateCreated == null)
@@ -51,13 +50,11 @@ public class Account {
         this.id = id;
     }
 
-    public String getAccountNumber() {
+    public UUID getAccountNumber() {
         return accountNumber;
     }
 
-    public void setAccountNumber(String accountNumber){
-        if(accountNumber == null || accountNumber.trim().length() == 0)
-            throw new IllegalArgumentException("invalid accountNumber supplied");
+    public void setAccountNumber(UUID accountNumber){
         this.accountNumber = accountNumber;
     }
 
@@ -71,14 +68,14 @@ public class Account {
         this.accountType = accountType;
     }
 
-    public double getBalance() {
-        return balance;
+    public double getAccountBalance() {
+        return accountBalance;
     }
 
-    public void setBalance(double balance){
-        if (balance < 0)
+    public void setAccountBalance(double accountBalance){
+        if (accountBalance < 0)
             throw new IllegalArgumentException("invalid balance supplied");
-        this.balance = balance;
+        this.accountBalance = accountBalance;
     }
 
     public LocalDateTime getDateCreated() {
@@ -107,7 +104,7 @@ public class Account {
                 "  id=" + id +
                 ", \n accountNumber='" + accountNumber + '\'' +
                 ", \n accountType='" + accountType + '\'' +
-                ", \n balance=" + balance +
+                ", \n balance=" + accountBalance +
                 ", \n dateCreated=" + dateCreated +
                 '}';
     }

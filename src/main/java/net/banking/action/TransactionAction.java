@@ -19,7 +19,7 @@ public class TransactionAction {
     public synchronized Transaction balanceEnquiry(Account account){
         return new Transaction()
                 .setSuccess(true)
-                .setTransactionAmount(account.getBalance())
+                .setTransactionAmount(account.getAccountBalance())
                 .setTransactioType(TransactionType.BALANCE_ENQUIRY.toString())
                 .setDateCreated(LocalDateTime.now())
                 .build();
@@ -29,13 +29,13 @@ public class TransactionAction {
         if(amount <= 0)
             throw new IllegalArgumentException("invalid amount supplied");
 
-        if(account.getBalance() < amount){
+        if(account.getAccountBalance() < amount){
             throw new InsufficientFundsException();
         }
 
 
-        double newBalance = account.getBalance() - amount;
-        account.setBalance(newBalance);
+        double newBalance = account.getAccountBalance() - amount;
+        account.setAccountBalance(newBalance);
 
         return new Transaction()
                 .setSuccess(true)
@@ -49,8 +49,8 @@ public class TransactionAction {
         if(amount <= 0)
             throw new IllegalArgumentException("invalid amount supplied");
 
-        double newBalance = account.getBalance() + amount;
-        account.setBalance(newBalance);
+        double newBalance = account.getAccountBalance() + amount;
+        account.setAccountBalance(newBalance);
 
         return new Transaction()
                 .setSuccess(true)
