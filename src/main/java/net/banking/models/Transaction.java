@@ -16,8 +16,8 @@ public class Transaction {
     }
 
     public Transaction(int id, String transactioType, double transactionAmount, boolean isSuccess, LocalDateTime dateCreated) {
-        if (id <= 0)
-            throw new IllegalArgumentException("invalid id supplied");
+        if (id < 0)
+            throw new IllegalArgumentException("invalid id supplied " + id);
         this.id = id;
 
         this.transactioType = transactioType;
@@ -37,44 +37,62 @@ public class Transaction {
         return id;
     }
 
-    public void setId(int id){
-        if (id <= 0)
+    public Transaction setId(int id){
+        if (id < 0)
             throw new IllegalArgumentException("invalid id supplied");
         this.id = id;
+
+        return this;
     }
 
     public String getTransactioType() {
         return transactioType;
     }
 
-    public void setTransactioType(String transactioType){
+    public Transaction setTransactioType(String transactioType){
         if(transactioType == null || transactioType.trim().length() == 0)
             throw new IllegalArgumentException("invalid transactioType supplied");
         this.id = id;
+
+        return this;
     }
 
     public double getTransactionAmount() {
         return transactionAmount;
     }
 
-    public void setTransactionAmount(double transactionAmount){
+    public Transaction setTransactionAmount(double transactionAmount){
         if (transactionAmount < 0)
             throw new IllegalArgumentException("invalid amount supplied");
         this.transactionAmount = transactionAmount;
+
+        return this;
     }
 
     public boolean isSuccess() {
         return isSuccess;
     }
 
+    public Transaction setSuccess(boolean success) {
+        isSuccess = success;
+
+        return this;
+    }
+
     public LocalDateTime getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(LocalDateTime dateCreated){
+    public Transaction setDateCreated(LocalDateTime dateCreated){
         if(dateCreated == null)
             throw new IllegalArgumentException("invalid dateCreated supplied");
         this.dateCreated = dateCreated;
+
+        return this;
+    }
+
+    public Transaction build(){
+        return new Transaction(id, transactioType, transactionAmount, isSuccess, dateCreated);
     }
 
     @Override

@@ -26,7 +26,7 @@ public class Account {
             throw new IllegalArgumentException("invalid accountType supplied");
         this.accountType = accountType;
 
-        if (balance <= 0)
+        if (balance < 0)
             throw new IllegalArgumentException("invalid balance supplied");
         this.balance = balance;
 
@@ -71,7 +71,7 @@ public class Account {
     }
 
     public void setBalance(double balance){
-        if (balance <= 0)
+        if (balance < 0)
             throw new IllegalArgumentException("invalid balance supplied");
         this.balance = balance;
     }
