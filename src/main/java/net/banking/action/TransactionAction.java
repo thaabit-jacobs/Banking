@@ -1,3 +1,4 @@
+
 package net.banking.action;
 
 import net.banking.exceptions.InsufficientFundsException;
@@ -18,9 +19,9 @@ public class TransactionAction {
 
     public synchronized Transaction balanceEnquiry(Account account){
         return new Transaction()
-                .setSuccess(true)
+                .setIsSuccess(true)
                 .setTransactionAmount(account.getAccountBalance())
-                .setTransactioType(TransactionType.BALANCE_ENQUIRY.toString())
+                .setTransactionType(TransactionType.BALANCE_ENQUIRY.toString())
                 .setDateCreated(LocalDateTime.now())
                 .build();
     }
@@ -38,9 +39,9 @@ public class TransactionAction {
         account.setAccountBalance(newBalance);
 
         return new Transaction()
-                .setSuccess(true)
+                .setIsSuccess(true)
                 .setTransactionAmount(amount)
-                .setTransactioType(TransactionType.WITHDRAWAL.toString())
+                .setTransactionType(TransactionType.WITHDRAWAL.toString())
                 .setDateCreated(LocalDateTime.now())
                 .build();
     }
@@ -53,10 +54,11 @@ public class TransactionAction {
         account.setAccountBalance(newBalance);
 
         return new Transaction()
-                .setSuccess(true)
+                .setIsSuccess(true)
                 .setTransactionAmount(amount)
-                .setTransactioType(TransactionType.DEPOSIT.toString())
+                .setTransactionType(TransactionType.DEPOSIT.toString())
                 .setDateCreated(LocalDateTime.now())
                 .build();
     }
 }
+

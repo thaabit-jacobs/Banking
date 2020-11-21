@@ -1,13 +1,14 @@
 package net.banking;
 
-/**
- * Hello world!
- *
- */
-public class App 
+import net.banking.controller.Controller;
+import net.banking.service.AccountService;
+import net.banking.service.TransactionService;
+import net.banking.service.UserService;
+
+public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        new Controller(new UserService(), new AccountService(), new TransactionService());
     }
 }

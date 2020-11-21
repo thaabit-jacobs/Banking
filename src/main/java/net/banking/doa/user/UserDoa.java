@@ -17,6 +17,9 @@ public interface UserDoa {
     @SqlQuery("select * from users where id=:id")
     User selectUser(@Bind("id") int id);
 
+    @SqlQuery("select * from users where email=:email")
+    User selectUser(@Bind("email") String email);
+
     @SqlQuery("select * from users")
     List<User> selectAllUser();
 

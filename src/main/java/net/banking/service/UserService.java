@@ -16,7 +16,9 @@ public class UserService {
     public User selectUser(int id){
         return userDoaImpl.selectUser(id);
     }
-
+    public User selectUser(String email){
+        return userDoaImpl.selectUser(email);
+    }
     public List<User> selectAllUser(){
         return userDoaImpl.selectAllUser();
     }

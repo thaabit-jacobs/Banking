@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Transaction {
     private int id;
-    private String transactioType;
+    private String transactionType;
     private double transactionAmount;
     private boolean isSuccess;
     private LocalDateTime dateCreated;
@@ -16,12 +16,12 @@ public class Transaction {
 
     }
 
-    public Transaction(int id, String transactioType, double transactionAmount, boolean isSuccess, LocalDateTime dateCreated, int accountId) {
+    public Transaction(int id, String transactionType, double transactionAmount, boolean isSuccess, LocalDateTime dateCreated, int accountId) {
         if (id < 0)
             throw new IllegalArgumentException("invalid id supplied " + id);
         this.id = id;
 
-        this.transactioType = transactioType;
+        this.transactionType = transactionType;
 
         if (transactionAmount < 0)
             throw new IllegalArgumentException("invalid amount supplied");
@@ -34,8 +34,8 @@ public class Transaction {
         this.dateCreated = dateCreated;
 
         if (accountId < 0)
-            throw new IllegalArgumentException("invalid accountId supplied " + id);
-        this.id = id;
+            throw new IllegalArgumentException("invalid accountId supplied " + accountId);
+        this.accountId = accountId;
     }
 
     public int getId() {
@@ -50,14 +50,14 @@ public class Transaction {
         return this;
     }
 
-    public String getTransactioType() {
-        return transactioType;
+    public String getTransactionType() {
+        return transactionType;
     }
 
-    public Transaction setTransactioType(String transactioType){
+    public Transaction setTransactionType(String transactioType){
         if(transactioType == null || transactioType.trim().length() == 0)
             throw new IllegalArgumentException("invalid transactioType supplied");
-        this.id = id;
+        this.transactionType = transactionType;
 
         return this;
     }
@@ -74,11 +74,11 @@ public class Transaction {
         return this;
     }
 
-    public boolean isSuccess() {
+    public boolean getIsSuccess() {
         return isSuccess;
     }
 
-    public Transaction setSuccess(boolean success) {
+    public Transaction setIsSuccess(boolean success) {
         isSuccess = success;
 
         return this;
@@ -109,14 +109,14 @@ public class Transaction {
     }
 
     public Transaction build(){
-        return new Transaction(id, transactioType, transactionAmount, isSuccess, dateCreated, accountId);
+        return new Transaction(id, transactionType, transactionAmount, isSuccess, dateCreated, accountId);
     }
 
     @Override
     public String toString() {
         return "Transaction{ \n" +
                 " id=" + id +
-                ", \n transactioType='" + transactioType + '\'' +
+                ", \n transactioType='" + transactionType + '\'' +
                 ", \n transactionAmount=" + transactionAmount +
                 ", \n isSuccess=" + isSuccess +
                 ", \n dateCreated=" + dateCreated +

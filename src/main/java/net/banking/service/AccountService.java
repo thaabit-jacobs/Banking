@@ -27,4 +27,8 @@ public class AccountService {
     public boolean deleteAccount(int id){
         return accountDoa.deleteAccount(id);
     }
+
+    public boolean deleteAllAccounts(){
+        return accountDoa.deleteAllAccounts();
+    }
 }

@@ -39,7 +39,14 @@ public class UserDoaImpl implements UserDoa{
 
     @Override
     public User selectUser(int id){
+        jdbi.registerRowMapper(new UserMapper());
         return jdbi.withExtension(UserDoa.class, doa -> doa.selectUser(id));
+    }
+
+    @Override
+    public User selectUser(String email){
+        jdbi.registerRowMapper(new UserMapper());
+        return jdbi.withExtension(UserDoa.class, doa -> doa.selectUser(email));
     }
 
     @Override
