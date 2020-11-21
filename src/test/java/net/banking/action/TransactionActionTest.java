@@ -1,5 +1,6 @@
 package net.banking.action;
 
+import net.banking.exceptions.InsufficientFundsException;
 import net.banking.models.Account;
 import net.banking.types.AccountType;
 import org.junit.jupiter.api.Test;
@@ -12,10 +13,44 @@ public class TransactionActionTest {
 
 
     private TransactionAction transactionAction = TransactionAction.getInstance();
-    private Account accountOne = new Account(1,"3555426104730148", AccountType.SAVINGS.toString(), 0.00, LocalDateTime.now());
+    private Account accountOne = new Account(1,"3555426104730148", AccountType.SAVINGS.toString(), 150.00, LocalDateTime.now());
 
     @Test
     void shouldReturnATransactionObjectAndReturnBalanceFromAccount(){
-        assertEquals(0.00, transactionAction.balanceEnquiry(accountOne).getTransactionAmount());
+        assertEquals(150.00, transactionAction.balanceEnquiry(accountOne).getTransactionAmount());
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionForAmountLessThan0(){
+        try{
+            transactionAction.withDrawal(accountOne, -50);
+        }catch (InsufficientFundsException e){
+            assertFalse(false);
+        }catch(IllegalArgumentException ie){
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    void shouldInsuffucientFundsExceptionForAccountBalanceLessThanAnount(){
+        try{
+            transactionAction.withDrawal(accountOne, 200);
+        }catch (InsufficientFundsException e){
+            assertTrue(true);
+        }catch(IllegalArgumentException ie){
+            assertFalse(false);
+        }
+    }
+
+    @Test
+    void shouldReturnTransactionObjectWithWithDrawalAmount(){
+        try{
+            assertEquals(100, transactionAction.withDrawal(accountOne, 100).getTransactionAmount());
+            assertEquals(50, accountOne.getBalance());
+        }catch (InsufficientFundsException e){
+            assertTrue(false);
+        }catch(IllegalArgumentException ie){
+            assertFalse(false);
+        }
     }
 }
