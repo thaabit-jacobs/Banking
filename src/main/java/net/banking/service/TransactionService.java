@@ -24,4 +24,13 @@ public class TransactionService {
     public boolean deleteTransaction(int id){
         return transactionDoa.deleteTransaction(id);
     }
+
+    public int getUniqueTransactionId(){
+        List<Transaction> transactionList = selectAllTransactions();
+
+        if(transactionList.size() == 0)
+            return 1;
+
+        return transactionList.get(transactionList.size() - 1).getId() + 1;
+    }
 }

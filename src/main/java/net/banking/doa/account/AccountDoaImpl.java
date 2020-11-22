@@ -8,6 +8,7 @@ import org.jdbi.v3.core.spi.JdbiPlugin;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 
 import java.util.List;
+import java.util.UUID;
 
 public class AccountDoaImpl implements AccountDoa {
     private Jdbi jdbi = Jdbi.create("jdbc:postgresql://localhost:5432/banking", "thaabit", "1234");
@@ -29,11 +30,19 @@ public class AccountDoaImpl implements AccountDoa {
 
     @Override
     public Account selectAccount(int id){
-        return jdbi.withExtension(AccountDoa.class, doa -> doa.selectAccount(id));
+
+        jdbi.registerRowMapper(new AccountMapper());return jdbi.withExtension(AccountDoa.class, doa -> doa.selectAccount(id));
+    }
+
+    @Override
+    public Account selectAccount(UUID accountNumber){
+
+        jdbi.registerRowMapper(new AccountMapper());return jdbi.withExtension(AccountDoa.class, doa -> doa.selectAccount(accountNumber));
     }
 
     @Override
     public List<Account> selectAllAccount(){
+        jdbi.registerRowMapper(new AccountMapper());
         return jdbi.withExtension(AccountDoa.class, doa -> doa.selectAllAccount());
     }
 

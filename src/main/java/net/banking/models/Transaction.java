@@ -57,7 +57,7 @@ public class Transaction {
     public Transaction setTransactionType(String transactioType){
         if(transactioType == null || transactioType.trim().length() == 0)
             throw new IllegalArgumentException("invalid transactioType supplied");
-        this.transactionType = transactionType;
+        this.transactionType = transactioType;
 
         return this;
     }

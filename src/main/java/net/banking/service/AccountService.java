@@ -4,6 +4,7 @@ import net.banking.doa.account.AccountDoaImpl;
 import net.banking.models.Account;
 
 import java.util.List;
+import java.util.UUID;
 
 public class AccountService {
     private final AccountDoaImpl accountDoa = new AccountDoaImpl();
@@ -14,6 +15,10 @@ public class AccountService {
 
     public Account selectAccount(int id){
         return accountDoa.selectAccount(id);
+    }
+
+    public Account selectAccount(UUID accountNumber){
+        return accountDoa.selectAccount(accountNumber);
     }
 
     public List<Account> selectAccount(){

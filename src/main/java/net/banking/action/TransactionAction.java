@@ -23,6 +23,7 @@ public class TransactionAction {
                 .setTransactionAmount(account.getAccountBalance())
                 .setTransactionType(TransactionType.BALANCE_ENQUIRY.toString())
                 .setDateCreated(LocalDateTime.now())
+                .setAccountId(account.getId())
                 .build();
     }
 
@@ -43,6 +44,7 @@ public class TransactionAction {
                 .setTransactionAmount(amount)
                 .setTransactionType(TransactionType.WITHDRAWAL.toString())
                 .setDateCreated(LocalDateTime.now())
+                .setAccountId(account.getId())
                 .build();
     }
 
@@ -58,6 +60,7 @@ public class TransactionAction {
                 .setTransactionAmount(amount)
                 .setTransactionType(TransactionType.DEPOSIT.toString())
                 .setDateCreated(LocalDateTime.now())
+                .setAccountId(account.getId())
                 .build();
     }
 }

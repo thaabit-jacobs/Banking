@@ -7,6 +7,7 @@ import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface AccountDoa {
 
@@ -16,6 +17,9 @@ public interface AccountDoa {
 
     @SqlQuery("select * from accounts where id=:id")
     public Account selectAccount(@Bind("id") int id);
+
+    @SqlQuery("select * from accounts where account_number=:accountNumber")
+    public Account selectAccount(@Bind("accountNumber") UUID accountNumber);
 
     @SqlQuery("select * from accounts")
     public List<Account> selectAllAccount();

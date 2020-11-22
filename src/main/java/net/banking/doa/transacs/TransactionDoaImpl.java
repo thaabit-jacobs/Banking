@@ -30,11 +30,13 @@ public class TransactionDoaImpl implements TransactionDoa {
 
     @Override
     public Transaction selectTransaction(int id){
+        jdbi.registerRowMapper(new TransactionMapper());
         return jdbi.withExtension(TransactionDoa.class, doa -> doa.selectTransaction(id));
     }
 
     @Override
     public List<Transaction> selectAllTransactions(){
+        jdbi.registerRowMapper(new TransactionMapper());
         return jdbi.withExtension(TransactionDoa.class, doa -> doa.selectAllTransactions());
     }
 
