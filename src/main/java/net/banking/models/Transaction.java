@@ -23,8 +23,6 @@ public class Transaction {
 
         this.transactionType = transactionType;
 
-        if (transactionAmount < 0)
-            throw new IllegalArgumentException("invalid amount supplied");
         this.transactionAmount = transactionAmount;
 
         this.isSuccess = isSuccess;
@@ -67,8 +65,6 @@ public class Transaction {
     }
 
     public Transaction setTransactionAmount(double transactionAmount){
-        if (transactionAmount < 0)
-            throw new IllegalArgumentException("invalid amount supplied");
         this.transactionAmount = transactionAmount;
 
         return this;

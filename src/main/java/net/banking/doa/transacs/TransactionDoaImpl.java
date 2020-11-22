@@ -6,6 +6,7 @@ import net.banking.models.Transaction;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.spi.JdbiPlugin;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
+import org.jdbi.v3.sqlobject.customizer.Bind;
 
 import java.util.List;
 
@@ -32,6 +33,12 @@ public class TransactionDoaImpl implements TransactionDoa {
     public Transaction selectTransaction(int id){
         jdbi.registerRowMapper(new TransactionMapper());
         return jdbi.withExtension(TransactionDoa.class, doa -> doa.selectTransaction(id));
+    }
+
+    @Override
+    public List<Transaction> selectAllTransactionForAccount(int accountId){
+        jdbi.registerRowMapper(new TransactionMapper());
+        return jdbi.withExtension(TransactionDoa.class, doa -> doa.selectAllTransactionForAccount(accountId));
     }
 
     @Override

@@ -27,7 +27,7 @@ public class TransactionAction {
                 .build();
     }
 
-    public synchronized Transaction withDrawal(Account account, int amount)throws InsufficientFundsException{
+    public synchronized Transaction withDrawal(Account account, double amount)throws InsufficientFundsException{
         if(amount <= 0)
             throw new IllegalArgumentException("invalid amount supplied");
 
@@ -48,7 +48,7 @@ public class TransactionAction {
                 .build();
     }
 
-    public synchronized Transaction deposit(Account account, int amount){
+    public synchronized Transaction deposit(Account account, double amount){
         if(amount <= 0)
             throw new IllegalArgumentException("invalid amount supplied");
 

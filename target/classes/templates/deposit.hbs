@@ -14,28 +14,13 @@
 </nav>
 
 <div class="container">
-    <form action="/user/withdrawal/{{amount}}/account" method="post">
-
-        <div class="container">
-            <div class="row">
-
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <div class="container">
-                        <div class="row">
-
-                            {{#each accountNumList}}
-                            <label class="btn btn-secondary btn-outline-primary btn-block p-3 mb-4 mr-3">
-                                <input type="radio" name="accountNum" id="option1" value="{{this}}"> {{this}}
-                            </label>
-                                {{/each}}
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+    <form action="/user/deposit/account" method="post">
+        <div class="form-group">
+            <label for="amountInput">Amount</label>
+            <input name="amount" type="number" class="form-control" id="amountInput" placeholder="amount">
         </div>
-        <button type="submit" class="btn btn-outline-primary btn-lg w-25 p-3 mb-4">SELECT</button>
+
+        <button type="submit" class="btn btn-outline-primary btn-lg w-25 p-3 mb-4">SUBMIT</button>
     </form>
 </div>
 

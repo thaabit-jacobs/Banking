@@ -17,6 +17,10 @@ public class TransactionService {
         return transactionDoa.selectTransaction(id);
     }
 
+    public List<Transaction> selectAllTransactionForAccount(int accountId){
+        return transactionDoa.selectAllTransactionForAccount(accountId);
+    }
+
     public List<Transaction> selectAllTransactions(){
         return transactionDoa.selectAllTransactions();
     }

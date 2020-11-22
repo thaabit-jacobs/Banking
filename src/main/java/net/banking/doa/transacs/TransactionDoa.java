@@ -17,6 +17,9 @@ public interface TransactionDoa {
     @SqlQuery("select * from transacs where id=:id")
     Transaction selectTransaction(@Bind("id") int id);
 
+    @SqlQuery("select * from transacs where account_id=:accountId")
+    List<Transaction> selectAllTransactionForAccount(@Bind("accountId") int accountId);
+
     @SqlQuery("select * from transacs")
     List<Transaction> selectAllTransactions();
 

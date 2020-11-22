@@ -14,7 +14,7 @@
 </nav>
 
 <div class="container">
-    <form action="/user/withdrawal/{{amount}}/account" method="post">
+    <form action="/user/account/statement" method="post">
 
         <div class="container">
             <div class="row">
@@ -24,10 +24,10 @@
                         <div class="row">
 
                             {{#each accountNumList}}
-                            <label class="btn btn-secondary btn-outline-primary btn-block p-3 mb-4 mr-3">
-                                <input type="radio" name="accountNum" id="option1" value="{{this}}"> {{this}}
-                            </label>
-                                {{/each}}
+                                <label class="btn btn-secondary btn-outline-primary btn-block p-3 mb-4 mr-3">
+                                    <input type="radio" name="accountNum" id="option1" value="{{this}}"> {{this}}
+                                </label>
+                            {{/each}}
 
                         </div>
                     </div>
