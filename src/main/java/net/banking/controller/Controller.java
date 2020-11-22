@@ -21,6 +21,7 @@ public class Controller {
 
     private String userEmail;
     private int userId;
+    private Double transactionAmount;
 
     private TransactionAction transactionAction = TransactionAction.getInstance();
 
@@ -226,6 +227,66 @@ public class Controller {
                     response.redirect("/user/" + userId);
                 }catch(InsufficientFundsException ife){
                     transaction = new Transaction(transactionService.getUniqueTransactionId(), TransactionType.WITHDRAWAL.toString(), 300, false, LocalDateTime.now(), account.getId());
+                    transactionService.insertTransaction(transaction);
+
+                    response.redirect("/user/" + userId);
+                }
+            }
+
+            return render(model, "userDashbaord.hbs");
+        }));
+
+        get("/user/withdrawal/account", ((request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+
+            return render(model, "withDrawal.hbs");
+        }));
+
+        post("/user/withdrawal/account", ((request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+
+            System.out.println(request.queryParams("amount"));
+            transactionAmount = Double.valueOf(request.queryParams("amount"));
+
+            response.redirect("/user/withdrawal/account/amount");
+
+            return "";
+        }));
+
+        get("/user/withdrawal/account/amount", ((request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+
+            List<String> accountNumLIst = new ArrayList<>();
+
+            for(Account account: accountService.selectAccount())
+                accountNumLIst.add("" + account.getAccountNumber());
+
+            model.put("amount", transactionAmount);
+            model.put("accountNumList", accountNumLIst);
+            model.put("userId", userId);
+
+            return render(model, "accountForm.hbs");
+        }));
+
+
+        post("/user/withdrawal/:amount/account", ((request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+
+            String selectedAccount = request.queryParams("accountNum");
+            Account account = accountService.selectAccount(UUID.fromString(selectedAccount));
+
+            if(account != null){
+                double currentAccountBalance = account.getAccountBalance();
+
+                try{
+                    transaction = transactionAction.withDrawal(account, transactionAmount.intValue()).setId(transactionService.getUniqueTransactionId());
+
+                    accountService.updateAccount(account);
+                    transactionService.insertTransaction(transaction);
+
+                    response.redirect("/user/" + userId);
+                }catch(InsufficientFundsException ife){
+                    transaction = new Transaction(transactionService.getUniqueTransactionId(), TransactionType.WITHDRAWAL.toString(), transactionAmount.intValue(), false, LocalDateTime.now(), account.getId());
                     transactionService.insertTransaction(transaction);
 
                     response.redirect("/user/" + userId);
