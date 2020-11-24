@@ -24,6 +24,9 @@ public interface AccountDoa {
     @SqlQuery("select * from accounts")
     public List<Account> selectAllAccount();
 
+    @SqlQuery("select * from accounts where user_id=:userId")
+    public List<Account> selectAccountForUser(@Bind("userId") int userId);
+
     @SqlUpdate("update accounts set balance=:accountBalance where id=:id")
     public boolean updateAccount(@BindBean Account account);
 

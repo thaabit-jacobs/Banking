@@ -9,32 +9,43 @@
     <title>Banking</title>
 </head>
 <body>
-<nav class="navbar navbar-dark bg-primary mb-5">
-    <a class="navbar-brand " href="/"><h1>Bank</h1></a>
+<nav class="navbar navbar-dark bg-primary mb-5" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="/user/{{userId}}">Bank</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" href="/user/account/statement">Statement</a>
+            <a class="nav-link" href="/user/accounts">Account</a>
+            <a class="nav-link" href="/user/logout">Logout</a>
+        </div>
+    </div>
 </nav>
 
-<div class="container">
+<div class="container justify-content-center text-center">
     <form action="/user/account/statement" method="post">
 
-        <div class="container">
+        {{#each accountNumList}}
             <div class="row">
+                <div class="col-2">
 
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <div class="container">
-                        <div class="row">
-
-                            {{#each accountNumList}}
-                                <label class="btn btn-secondary btn-outline-primary btn-block p-3 mb-4 mr-3">
-                                    <input type="radio" name="accountNum" id="option1" value="{{this}}"> {{this}}
-                                </label>
-                            {{/each}}
-
-                        </div>
+                </div>
+                <div class="col-8">
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-secondary btn-outline-primary btn-block p-3 mb-4 mr-3">
+                            <input type="radio" name="accountNum" id="option1" value="{{this}}" id="validationCustom03" required> {{this}}
+                        </label>
                     </div>
+
                 </div>
 
+                <div class="col-2">
+
+                </div>
             </div>
-        </div>
+        {{/each}}
+
         <button type="submit" class="btn btn-outline-primary btn-lg w-25 p-3 mb-4">SELECT</button>
     </form>
 </div>

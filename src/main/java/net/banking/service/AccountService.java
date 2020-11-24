@@ -25,6 +25,10 @@ public class AccountService {
         return accountDoa.selectAllAccount();
     }
 
+    public List<Account> selectAccountForUser(int userId){
+        return accountDoa.selectAccountForUser(userId);
+    }
+
     public boolean updateAccount(Account account){
         return accountDoa.updateAccount(account);
     }
@@ -35,5 +39,13 @@ public class AccountService {
 
     public boolean deleteAllAccounts(){
         return accountDoa.deleteAllAccounts();
+    }
+
+
+    public int getNewAccountId(){
+        if(selectAccount().size() == 0)
+            return 1;
+
+        return selectAccount().get(selectAccount().size() - 1).getId() + 1;
     }
 }

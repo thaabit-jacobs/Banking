@@ -12,6 +12,7 @@ import net.banking.models.User;
 import net.banking.service.AccountService;
 import net.banking.service.TransactionService;
 import net.banking.service.UserService;
+import net.banking.types.AccountType;
 import net.banking.types.TransactionType;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -71,10 +72,55 @@ public class Controller {
             return "";
         }));
 
+        //ACCOUNT PAGE
+        get("/user/accounts", ((request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+
+            List<Account> accountList = accountService.selectAccountForUser(userId);
+            System.out.println(accountList);
+
+            model.put("accounts", accountList);
+            model.put("userId", userId);
+
+            return render(model, "account.hbs");
+        }));
+
+
+        //add user form
+        get("/user/accounts/add", ((request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+
+            List<AccountType> accountTypeList = Arrays.asList(AccountType.values());
+
+            model.put("accountTypeList", accountTypeList);
+            model.put("userId", userId);
+
+            return render(model, "addAccountForm.hbs");
+        }));
+
+        post("/user/accounts/add", ((request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+
+            String selectedAccountType = request.queryParams("accountType");
+
+            int newAccountId = accountService.getNewAccountId();
+
+            accountService.insertAccount(new Account(newAccountId, UUID.randomUUID(), selectedAccountType, 0.00, LocalDateTime.now(), userId));
+
+            response.redirect("/user/accounts");
+
+            return "";
+        }));
+
         //USER DASHBAORDROUTES
 
         get("/user/:id", ((request, response) -> {
             Map<String, Object> model = new HashMap<>();
+
+            String userName = userService.selectUser(userId).getFirstName() + " " + userService.selectUser(userId).getLastName();
+
+            model.put("userName", userName);
+            model.put("userId", userId);
 
             return render(model, "userDashbaord.hbs");
         }));
@@ -87,7 +133,7 @@ public class Controller {
 
             List<String> accountNumLIst = new ArrayList<>();
 
-            for(Account account: accountService.selectAccount())
+            for(Account account: accountService.selectAccountForUser(userId))
                 accountNumLIst.add("" + account.getAccountNumber());
 
             model.put("accountNumList", accountNumLIst);
@@ -104,7 +150,7 @@ public class Controller {
 
             List<String> accountNumLIst = new ArrayList<>();
 
-            for(Account account: accountService.selectAccount())
+            for(Account account: accountService.selectAccountForUser(userId))
                 accountNumLIst.add("" + account.getAccountNumber());
 
             model.put("accountNumList", accountNumLIst);
@@ -123,8 +169,15 @@ public class Controller {
                 List<Transaction> transacs = transactionService.selectAllTransactionForAccount(account.getId());
                 System.out.println(transacs);
                 model.put("transacs", transacs);
+                model.put("userId", userId);
                 return render(model, "statement.hbs");
             }
+            model.put("userId", userId);
+
+            String userName = userService.selectUser(userId).getFirstName() + " " + userService.selectUser(userId).getLastName();
+
+            model.put("userName", userName);
+            model.put("userId", userId);
 
             return render(model, "userDashbaord.hbs");
         }));
@@ -157,6 +210,12 @@ public class Controller {
                 }
             }
 
+            model.put("userId", userId);
+            String userName = userService.selectUser(userId).getFirstName() + " " + userService.selectUser(userId).getLastName();
+
+            model.put("userName", userName);
+            model.put("userId", userId);
+
             return render(model, "userDashbaord.hbs");
         }));
 
@@ -166,7 +225,7 @@ public class Controller {
 
             List<String> accountNumLIst = new ArrayList<>();
 
-            for(Account account: accountService.selectAccount())
+            for(Account account: accountService.selectAccountForUser(userId))
                 accountNumLIst.add("" + account.getAccountNumber());
 
             model.put("accountNumList", accountNumLIst);
@@ -199,6 +258,8 @@ public class Controller {
                 }
             }
 
+            model.put("userId", userId);
+
             return render(model, "userDashbaord.hbs");
         }));
 
@@ -209,7 +270,7 @@ public class Controller {
 
             List<String> accountNumLIst = new ArrayList<>();
 
-            for(Account account: accountService.selectAccount())
+            for(Account account: accountService.selectAccountForUser(userId))
                 accountNumLIst.add("" + account.getAccountNumber());
 
             model.put("accountNumList", accountNumLIst);
@@ -242,6 +303,13 @@ public class Controller {
                 }
             }
 
+            model.put("userId", userId);
+
+            String userName = userService.selectUser(userId).getFirstName() + " " + userService.selectUser(userId).getLastName();
+
+            model.put("userName", userName);
+            model.put("userId", userId);
+
             return render(model, "userDashbaord.hbs");
         }));
 
@@ -251,7 +319,7 @@ public class Controller {
 
             List<String> accountNumLIst = new ArrayList<>();
 
-            for(Account account: accountService.selectAccount())
+            for(Account account: accountService.selectAccountForUser(userId))
                 accountNumLIst.add("" + account.getAccountNumber());
             model.put("amount", 300);
             model.put("accountNumList", accountNumLIst);
@@ -284,13 +352,15 @@ public class Controller {
                 }
             }
 
+            model.put("userId", userId);
+
             return render(model, "userDashbaord.hbs");
         }));
 
         //WITHDRAWAL CUSTOM
         get("/user/withdrawal/account", ((request, response) -> {
             Map<String, Object> model = new HashMap<>();
-
+            model.put("userId", userId);
             return render(model, "withDrawal.hbs");
         }));
 
@@ -310,7 +380,7 @@ public class Controller {
 
             List<String> accountNumLIst = new ArrayList<>();
 
-            for(Account account: accountService.selectAccount())
+            for(Account account: accountService.selectAccountForUser(userId))
                 accountNumLIst.add("" + account.getAccountNumber());
 
             model.put("amount", transactionAmount);
@@ -342,8 +412,20 @@ public class Controller {
                     transactionService.insertTransaction(transaction);
 
                     response.redirect("/user/" + userId);
+                }catch(IllegalArgumentException iae){
+                    transaction = new Transaction(transactionService.getUniqueTransactionId(), TransactionType.WITHDRAWAL.toString(), transactionAmount.intValue(), false, LocalDateTime.now(), account.getId());
+                    transactionService.insertTransaction(transaction);
+
+                    response.redirect("/user/" + userId);
                 }
             }
+
+            model.put("userId", userId);
+
+            String userName = userService.selectUser(userId).getFirstName() + " " + userService.selectUser(userId).getLastName();
+
+            model.put("userName", userName);
+            model.put("userId", userId);
 
             return render(model, "userDashbaord.hbs");
         }));
@@ -351,7 +433,7 @@ public class Controller {
         //DEPOSIT
         get("/user/deposit/account", ((request, response) -> {
             Map<String, Object> model = new HashMap<>();
-
+            model.put("userId", userId);
             return render(model, "deposit.hbs");
         }));
 
@@ -371,7 +453,7 @@ public class Controller {
 
             List<String> accountNumLIst = new ArrayList<>();
 
-            for(Account account: accountService.selectAccount())
+            for(Account account: accountService.selectAccountForUser(userId))
                 accountNumLIst.add("" + account.getAccountNumber());
 
             model.put("amount", transactionAmount);
@@ -405,6 +487,13 @@ public class Controller {
                 }
             }
 
+            model.put("userId", userId);
+
+            String userName = userService.selectUser(userId).getFirstName() + " " + userService.selectUser(userId).getLastName();
+
+            model.put("userName", userName);
+            model.put("userId", userId);
+
             return render(model, "userDashbaord.hbs");
         }));
 
@@ -415,7 +504,7 @@ public class Controller {
 
             List<String> accountNumLIst = new ArrayList<>();
 
-            for(Account account: accountService.selectAccount())
+            for(Account account: accountService.selectAccountForUser(userId))
                 accountNumLIst.add("" + account.getAccountNumber());
 
             model.put("amount", transactionAmount);
@@ -437,13 +526,17 @@ public class Controller {
                     transactionService.insertTransaction(transaction);
                 }
 
+            model.put("userId", userId);
+
+            String userName = userService.selectUser(userId).getFirstName() + " " + userService.selectUser(userId).getLastName();
+
+            model.put("userName", userName);
+            model.put("userId", userId);
+
             model.put("accountBalance", account.getAccountBalance());
             model.put("accountNumber", account.getAccountNumber());
             return render(model, "userDashbaord.hbs");
             }));
-
-
-
 
     }
 }

@@ -47,6 +47,12 @@ public class AccountDoaImpl implements AccountDoa {
     }
 
     @Override
+    public List<Account> selectAccountForUser(int userId){
+        jdbi.registerRowMapper(new AccountMapper());
+        return jdbi.withExtension(AccountDoa.class, doa -> doa.selectAccountForUser(userId));
+    }
+
+    @Override
     public boolean updateAccount(Account account){
         return jdbi.withExtension(AccountDoa.class, doa -> doa.updateAccount(account));
     }
