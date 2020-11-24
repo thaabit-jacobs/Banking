@@ -23,7 +23,7 @@ public class App
         new AccountService().insertAccount(new Account(5, UUID.fromString("9a2f4a1d-2165-406a-be02-d4031acf8dcf"), "SAVINGS", 1500.00, LocalDateTime.now(), 1));
         new AccountService().insertAccount(new Account(6, UUID.fromString("99f598b7-2bda-49f4-a40f-06b77152e1c6"), "SAVINGS", 0.50, LocalDateTime.now(), 1));*/
 
-       // new UserService().insertUser(new User(2, "Thabanf", "Thabanf", "Thabanf@gmail.com", LocalDateTime.now()));
+       //new UserService().insertUser(new User(4, "Malakai", "Mathis", "mathis@gmail", LocalDateTime.now()));
         new Controller(new UserService(), new AccountService(), new TransactionService());
     }
 }

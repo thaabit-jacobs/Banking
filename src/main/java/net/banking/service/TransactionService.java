@@ -4,6 +4,7 @@ import net.banking.doa.transacs.TransactionDoa;
 import net.banking.doa.transacs.TransactionDoaImpl;
 import net.banking.models.Transaction;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class TransactionService {
@@ -36,5 +37,9 @@ public class TransactionService {
             return 1;
 
         return transactionList.get(transactionList.size() - 1).getId() + 1;
+    }
+
+    public List<Transaction> selectAllTransactionBetween(LocalDate dateOne, LocalDate  dateTwo, int id){
+        return transactionDoa.selectAllTransactionBetween(dateOne, dateTwo, id);
     }
 }

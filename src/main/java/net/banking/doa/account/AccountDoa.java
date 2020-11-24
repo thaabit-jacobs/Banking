@@ -24,6 +24,9 @@ public interface AccountDoa {
     @SqlQuery("select * from accounts")
     public List<Account> selectAllAccount();
 
+    @SqlQuery("select * from accounts where date_created between :dateOne and dateTwo")
+    public List<Account> selectAllAccountsBetween(@Bind("dateOne") String dateOne, @Bind("dateTwo") String dateTwo);
+
     @SqlQuery("select * from accounts where user_id=:userId")
     public List<Account> selectAccountForUser(@Bind("userId") int userId);
 

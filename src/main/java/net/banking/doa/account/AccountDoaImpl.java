@@ -6,6 +6,7 @@ import net.banking.models.Account;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.spi.JdbiPlugin;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
+import org.jdbi.v3.sqlobject.customizer.Bind;
 
 import java.util.List;
 import java.util.UUID;
@@ -44,6 +45,12 @@ public class AccountDoaImpl implements AccountDoa {
     public List<Account> selectAllAccount(){
         jdbi.registerRowMapper(new AccountMapper());
         return jdbi.withExtension(AccountDoa.class, doa -> doa.selectAllAccount());
+    }
+
+    @Override
+    public List<Account> selectAllAccountsBetween(String dateOne, String dateTwo){
+        jdbi.registerRowMapper(new AccountMapper());
+        return jdbi.withExtension(AccountDoa.class, doa -> doa.selectAllAccountsBetween(dateOne, dateTwo));
     }
 
     @Override

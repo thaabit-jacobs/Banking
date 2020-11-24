@@ -8,6 +8,7 @@ import org.jdbi.v3.core.spi.JdbiPlugin;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class TransactionDoaImpl implements TransactionDoa {
@@ -55,5 +56,11 @@ public class TransactionDoaImpl implements TransactionDoa {
     @Override
     public boolean deleteAllTransactions(){
         return jdbi.withExtension(TransactionDoa.class, doa -> doa.deleteAllTransactions());
+    }
+
+    @Override
+    public List<Transaction> selectAllTransactionBetween(LocalDate dateOne, LocalDate  dateTwo, int id){
+        jdbi.registerRowMapper(new TransactionMapper());
+        return jdbi.withExtension(TransactionDoa.class, doa -> doa.selectAllTransactionBetween(dateOne, dateTwo, id));
     }
 }

@@ -17,6 +17,7 @@ import net.banking.types.TransactionType;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -39,7 +40,6 @@ public class Controller {
         //LOGIN ROUTES
         get("/", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
-
             return render(model, "landing.hbs");
         });
 
@@ -84,7 +84,6 @@ public class Controller {
 
             return render(model, "account.hbs");
         }));
-
 
         //add user form
         get("/user/accounts/add", ((request, response) -> {
@@ -163,13 +162,21 @@ public class Controller {
             Map<String, Object> model = new HashMap<>();
 
             String selectedAccount = request.queryParams("accountNum");
+            String dateOne = request.queryParams("dateOne");
+            String dateTwo = request.queryParams("dateTwo");
+
+            System.out.println(dateOne);
+            System.out.println(dateTwo);
+
             Account account = accountService.selectAccount(UUID.fromString(selectedAccount));
 
             if(account != null){
-                List<Transaction> transacs = transactionService.selectAllTransactionForAccount(account.getId());
+                List<Transaction> transacs = transactionService.selectAllTransactionBetween(LocalDate.parse(dateOne), LocalDate.parse(dateTwo), account.getId());
                 System.out.println(transacs);
                 model.put("transacs", transacs);
                 model.put("userId", userId);
+                model.put("accountNumber", account.getAccountNumber());
+                model.put("accountBalance", account.getAccountBalance());
                 return render(model, "statement.hbs");
             }
             model.put("userId", userId);
