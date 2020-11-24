@@ -9,6 +9,7 @@ import net.banking.json.ObjectToJson;
 import net.banking.models.Account;
 import net.banking.models.Transaction;
 import net.banking.models.User;
+import net.banking.printer.PdfCreater;
 import net.banking.service.AccountService;
 import net.banking.service.TransactionService;
 import net.banking.service.UserService;
@@ -26,6 +27,8 @@ public class Controller {
     private String userEmail;
     private int userId;
     private Double transactionAmount;
+
+    private PdfCreater pdfCreater;
 
     private TransactionAction transactionAction = TransactionAction.getInstance();
 
@@ -172,7 +175,9 @@ public class Controller {
 
             if(account != null){
                 List<Transaction> transacs = transactionService.selectAllTransactionBetween(LocalDate.parse(dateOne), LocalDate.parse(dateTwo), account.getId());
-                System.out.println(transacs);
+
+                pdfCreater = new PdfCreater(transacs, account, userService.selectUser(userId));
+
                 model.put("transacs", transacs);
                 model.put("userId", userId);
                 model.put("accountNumber", account.getAccountNumber());
@@ -187,6 +192,15 @@ public class Controller {
             model.put("userId", userId);
 
             return render(model, "userDashbaord.hbs");
+        }));
+
+        //PRINT STATEMENT
+        get("/user/account/statement/print", ((request, response) -> {
+            pdfCreater.createPdf();
+
+            response.redirect("/user/:id");
+
+            return "";
         }));
 
         //WITHDRAWALS ROUTES
