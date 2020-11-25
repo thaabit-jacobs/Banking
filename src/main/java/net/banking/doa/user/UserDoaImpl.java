@@ -51,11 +51,23 @@ public class UserDoaImpl implements UserDoa{
 
     @Override
     public List<User> selectAllUser(){
+        jdbi.registerRowMapper(new UserMapper());
         return jdbi.withExtension(UserDoa.class, doa -> doa.selectAllUser());
     }
 
     @Override
     public boolean deleteUser(int id){
         return jdbi.withExtension(UserDoa.class, doa -> doa.deleteUser(id));
+    }
+
+    public int getUniqueId(){
+        List<Integer> results = jdbi.withHandle(handle -> {
+            return  handle.createQuery("select * from nextval('usersequence')")
+                    .mapTo(int.class)
+                    .list();
+
+        });
+
+        return results.get(0).intValue();
     }
 }

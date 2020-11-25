@@ -20,7 +20,7 @@ public interface UserDoa {
     @SqlQuery("select * from users where email=:email")
     User selectUser(@Bind("email") String email);
 
-    @SqlQuery("select * from users")
+    @SqlQuery("select * from users order by id")
     List<User> selectAllUser();
 
     @SqlUpdate("update users set first_name=:firstName, last_name=:lastName, email=:email where id=:id")

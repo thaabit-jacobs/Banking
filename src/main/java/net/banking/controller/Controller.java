@@ -64,6 +64,38 @@ public class Controller {
             return "";
         });
 
+        // ADMIN ROUTES
+
+        //ADMIN DASHBOADR
+        get("/admin", ((request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+
+            return render(model, "adminDashboard.hbs");
+        }));
+
+        //ADD USEr
+
+        get("/admin/add", ((request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+
+            return render(model, "addUserForm.hbs");
+        }));
+
+        post("/admin/add", ((request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            String firstName = request.queryParams("firstName");
+            String lastName = request.queryParams("lastName");
+            String email = request.queryParams("email");
+
+            userService.insertUser(new User(userService.getUniqueId(), firstName, lastName, email, LocalDateTime.now()));
+
+            response.redirect("/admin/add");
+
+            return "";
+        }));
+
+        //DELETE USER
+
         get("/user/logout", ((request, response) -> {
             userEmail = null;
             userId = 0;
@@ -216,7 +248,7 @@ public class Controller {
                 double currentAccountBalance = account.getAccountBalance();
 
                 try{
-                   transaction = transactionAction.withDrawal(account, 100).setId(transactionService.getUniqueTransactionId());
+                   transaction = transactionAction.withDrawal(account, 100).setId(transactionService.getNewId());
                     System.out.println(transaction);
 
                    accountService.updateAccount(account);
@@ -224,7 +256,7 @@ public class Controller {
 
                    response.redirect("/user/" + userId);
                 }catch(InsufficientFundsException ife){
-                    transaction = new Transaction(transactionService.getUniqueTransactionId(), TransactionType.WITHDRAWAL.toString(), 100, false, LocalDateTime.now(), account.getId());
+                    transaction = new Transaction(transactionService.getNewId(), TransactionType.WITHDRAWAL.toString(), 100, false, LocalDateTime.now(), account.getId());
                     transactionService.insertTransaction(transaction);
 
                     response.redirect("/user/" + userId);
@@ -265,14 +297,14 @@ public class Controller {
                 double currentAccountBalance = account.getAccountBalance();
 
                 try{
-                    transaction = transactionAction.withDrawal(account, 150).setId(transactionService.getUniqueTransactionId()).build();
+                    transaction = transactionAction.withDrawal(account, 150).setId(transactionService.getNewId()).build();
 
                     accountService.updateAccount(account);
                     transactionService.insertTransaction(transaction);
 
                     response.redirect("/user/" + userId);
                 }catch(InsufficientFundsException ife){
-                    transaction = new Transaction(transactionService.getUniqueTransactionId(), TransactionType.WITHDRAWAL.toString(), 150, false, LocalDateTime.now(), account.getId());
+                    transaction = new Transaction(transactionService.getNewId(), TransactionType.WITHDRAWAL.toString(), 150, false, LocalDateTime.now(), account.getId());
                     transactionService.insertTransaction(transaction);
 
                     response.redirect("/user/" + userId);
@@ -310,14 +342,14 @@ public class Controller {
                 double currentAccountBalance = account.getAccountBalance();
 
                 try{
-                    transaction = transactionAction.withDrawal(account, 200).setId(transactionService.getUniqueTransactionId()).build();
+                    transaction = transactionAction.withDrawal(account, 200).setId(transactionService.getNewId()).build();
 
                     accountService.updateAccount(account);
                     transactionService.insertTransaction(transaction);
 
                     response.redirect("/user/" + userId);
                 }catch(InsufficientFundsException ife){
-                    transaction = new Transaction(transactionService.getUniqueTransactionId(), TransactionType.WITHDRAWAL.toString(), 200, false, LocalDateTime.now(), account.getId());
+                    transaction = new Transaction(transactionService.getNewId(), TransactionType.WITHDRAWAL.toString(), 200, false, LocalDateTime.now(), account.getId());
                     transactionService.insertTransaction(transaction);
 
                     response.redirect("/user/" + userId);
@@ -359,14 +391,14 @@ public class Controller {
                 double currentAccountBalance = account.getAccountBalance();
 
                 try{
-                    transaction = transactionAction.withDrawal(account, 300).setId(transactionService.getUniqueTransactionId()).build();
+                    transaction = transactionAction.withDrawal(account, 300).setId(transactionService.getNewId()).build();
 
                     accountService.updateAccount(account);
                     transactionService.insertTransaction(transaction);
 
                     response.redirect("/user/" + userId);
                 }catch(InsufficientFundsException ife){
-                    transaction = new Transaction(transactionService.getUniqueTransactionId(), TransactionType.WITHDRAWAL.toString(), 300, false, LocalDateTime.now(), account.getId());
+                    transaction = new Transaction(transactionService.getNewId(), TransactionType.WITHDRAWAL.toString(), 300, false, LocalDateTime.now(), account.getId());
                     transactionService.insertTransaction(transaction);
 
                     response.redirect("/user/" + userId);
@@ -422,19 +454,19 @@ public class Controller {
                 double currentAccountBalance = account.getAccountBalance();
 
                 try{
-                    transaction = transactionAction.withDrawal(account, transactionAmount.intValue()).setId(transactionService.getUniqueTransactionId()).build();
+                    transaction = transactionAction.withDrawal(account, transactionAmount.intValue()).setId(transactionService.getNewId()).build();
 
                     accountService.updateAccount(account);
                     transactionService.insertTransaction(transaction);
 
                     response.redirect("/user/" + userId);
                 }catch(InsufficientFundsException ife){
-                    transaction = new Transaction(transactionService.getUniqueTransactionId(), TransactionType.WITHDRAWAL.toString(), transactionAmount.intValue(), false, LocalDateTime.now(), account.getId());
+                    transaction = new Transaction(transactionService.getNewId(), TransactionType.WITHDRAWAL.toString(), transactionAmount.intValue(), false, LocalDateTime.now(), account.getId());
                     transactionService.insertTransaction(transaction);
 
                     response.redirect("/user/" + userId);
                 }catch(IllegalArgumentException iae){
-                    transaction = new Transaction(transactionService.getUniqueTransactionId(), TransactionType.WITHDRAWAL.toString(), transactionAmount.intValue(), false, LocalDateTime.now(), account.getId());
+                    transaction = new Transaction(transactionService.getNewId(), TransactionType.WITHDRAWAL.toString(), transactionAmount.intValue(), false, LocalDateTime.now(), account.getId());
                     transactionService.insertTransaction(transaction);
 
                     response.redirect("/user/" + userId);
@@ -494,14 +526,14 @@ public class Controller {
                 double currentAccountBalance = account.getAccountBalance();
 
                 try{
-                    transaction = transactionAction.deposit(account, transactionAmount.intValue()).setId(transactionService.getUniqueTransactionId()).build();
+                    transaction = transactionAction.deposit(account, transactionAmount.intValue()).setId(transactionService.getNewId()).build();
 
                     accountService.updateAccount(account);
                     transactionService.insertTransaction(transaction);
 
                     response.redirect("/user/" + userId);
                 }catch(IllegalArgumentException ila){
-                    transaction = new Transaction(transactionService.getUniqueTransactionId(), TransactionType.DEPOSIT.toString(), transactionAmount.intValue(), false, LocalDateTime.now(), account.getId());
+                    transaction = new Transaction(transactionService.getNewId(), TransactionType.DEPOSIT.toString(), transactionAmount.intValue(), false, LocalDateTime.now(), account.getId());
                     transactionService.insertTransaction(transaction);
 
                     response.redirect("/user/" + userId);
@@ -542,7 +574,7 @@ public class Controller {
             Account account = accountService.selectAccount(UUID.fromString(selectedAccount));
 
             if(account != null){
-                    transaction = transactionAction.balanceEnquiry(account).setId(transactionService.getUniqueTransactionId()).build();
+                    transaction = transactionAction.balanceEnquiry(account).setId(transactionService.getNewId()).build();
 
                     transactionService.insertTransaction(transaction);
                 }

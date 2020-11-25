@@ -1,6 +1,7 @@
 package net.banking.service;
 
 import net.banking.doa.user.UserDoaImpl;
+import net.banking.models.Account;
 import net.banking.models.User;
 
 import java.util.List;
@@ -29,5 +30,9 @@ public class UserService {
 
     public boolean deleteUser(int id){
         return userDoaImpl.deleteUser(id);
+    }
+
+    public int getUniqueId(){
+        return userDoaImpl.getUniqueId();
     }
 }

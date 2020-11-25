@@ -10,25 +10,44 @@
 </head>
 <body>
 <nav class="navbar navbar-dark bg-primary mb-5" style="background-color: #e3f2fd;">
-    <a class="navbar-brand" href="/admin">Bank</a>
+    <a class="navbar-brand" href="/">Bank</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 </nav>
 
 <div class="container justify-content-center text-center">
-    <form action="/user/accounts/add" method="post">
+    <form action="/admin/add" method="post">
 
-        <div class="form-group">
-            <label for="typeOfAccount">Select Account Type</label>
-            <select class="form-control" id="typeOfAccount" name="accountType" value="{{this}}" required>
-                {{#each accountTypeList}}
-                <option>{{this}}</option>
-                    {{/each}}
-            </select>
-        </div>
+            <div class="row">
 
-        <button type="submit" class="btn btn-outline-primary btn-lg w-25 p-3 mb-4">add</button>
+                <div class="col-2">
+                </div>
+
+                <div class="col-8">
+                    <div class="form-group">
+                        <label for="firstName">Firstname: </label>
+                        <input name="firstName" type="input" class="form-control" id="amountInput" placeholder="firstname..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="firstName">Lastname: </label>
+                        <input name="lastName" type="input" class="form-control" id="amountInput" placeholder="lastname..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="firstName">Email: </label>
+                        <input name="email" type="input" class="form-control" id="amountInput" placeholder="email@gmail.com..." required>
+                    </div>
+
+                </div>
+
+                <div class="col-2">
+                </div>
+
+            </div>
+
+        <button type="submit" class="btn btn-outline-primary btn-lg w-25 p-3 mb-4">ADD</button>
     </form>
 </div>
 

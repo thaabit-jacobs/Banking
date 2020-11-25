@@ -1,13 +1,17 @@
 package net.banking.doa.account;
 
+;
 import net.banking.mappers.AccountMapper;
 import net.banking.mappers.UserMapper;
 import net.banking.models.Account;
+import net.banking.service.AccountService;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.spi.JdbiPlugin;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.jdbi.v3.sqlobject.customizer.Bind;
+import org.jdbi.v3.sqlobject.customizer.OutParameter;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -73,4 +77,16 @@ public class AccountDoaImpl implements AccountDoa {
     public boolean deleteAllAccounts(){
         return jdbi.withExtension(AccountDoa.class, doa -> doa.deleteAllAccounts());
     }
+
+    public int getUniqueId(){
+        List<Integer> results = jdbi.withHandle(handle -> {
+           return  handle.createQuery("select * from nextval('accountsequence')")
+                   .mapTo(int.class)
+                   .list();
+
+        });
+
+        return results.get(0).intValue();
+    }
+
 }

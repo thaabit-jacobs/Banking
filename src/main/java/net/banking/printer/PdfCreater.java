@@ -30,6 +30,8 @@ public class PdfCreater {
     private final Account account;
     private final User user;
 
+    private String pdfPath;
+
     private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 20,
             Font.BOLD);
     private static Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
@@ -47,7 +49,8 @@ public class PdfCreater {
 
     public void createPdf() throws IOException, DocumentException, URISyntaxException {
         Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream("/home/codex/Desktop/projects/banking/src/main/resources/statements/" + (user.getFirstName() + user.getLastName() + LocalDateTime.now()) + ".pdf"));
+        pdfPath = "/home/codex/Desktop/projects/banking/src/main/resources/statements/" + (user.getFirstName() + user.getLastName() + LocalDateTime.now()) + ".pdf";
+        PdfWriter.getInstance(document, new FileOutputStream(pdfPath));
 
         document.open();
 
@@ -105,5 +108,9 @@ public class PdfCreater {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));
         }
+    }
+
+    public String getPdfPath(){
+        return pdfPath;
     }
 }

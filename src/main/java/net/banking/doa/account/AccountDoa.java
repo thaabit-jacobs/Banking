@@ -21,7 +21,7 @@ public interface AccountDoa {
     @SqlQuery("select * from accounts where account_number=:accountNumber")
     public Account selectAccount(@Bind("accountNumber") UUID accountNumber);
 
-    @SqlQuery("select * from accounts")
+    @SqlQuery("select * from accounts order by id")
     public List<Account> selectAllAccount();
 
     @SqlQuery("select * from accounts where date_created between :dateOne and dateTwo")

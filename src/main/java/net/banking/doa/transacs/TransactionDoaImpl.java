@@ -63,4 +63,15 @@ public class TransactionDoaImpl implements TransactionDoa {
         jdbi.registerRowMapper(new TransactionMapper());
         return jdbi.withExtension(TransactionDoa.class, doa -> doa.selectAllTransactionBetween(dateOne, dateTwo, id));
     }
+
+    public int getUniqueId(){
+        List<Integer> results = jdbi.withHandle(handle -> {
+            return  handle.createQuery("select * from nextval('transacequence')")
+                    .mapTo(int.class)
+                    .list();
+
+        });
+
+        return results.get(0).intValue();
+    }
 }

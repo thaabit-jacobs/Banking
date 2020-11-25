@@ -2,11 +2,10 @@ package net.banking.service;
 
 import net.banking.doa.account.AccountDoaImpl;
 import net.banking.models.Account;
+import net.banking.models.Transaction;
+import org.jdbi.v3.sqlobject.statement.SqlQuery;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class AccountService {
     private final AccountDoaImpl accountDoa = new AccountDoaImpl();
@@ -47,18 +46,7 @@ public class AccountService {
         return accountDoa.selectAllAccountsBetween(dateOne, dateTwo);
     }
 
-
     public int getNewAccountId(){
-        List<Account> accountList = selectAccount();
-
-        if(selectAccount().size() == 0)
-            return 1;
-
-        Comparator<Account> byId = (a1, a2) -> a1.getId() - a2.getId();
-
-        Collections.sort(accountList, byId);
-
-        int newId = accountList.get(accountList.size() - 1).getId()  + 1;
-        return newId;
+        return accountDoa.getUniqueId();
     }
 }

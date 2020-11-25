@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class TransactionService {
-    private final TransactionDoa transactionDoa = new TransactionDoaImpl();
+    private final TransactionDoaImpl transactionDoa = new TransactionDoaImpl();
 
     public boolean insertTransaction(Transaction transaction){
         return transactionDoa.insertTransaction(transaction);
@@ -30,13 +30,8 @@ public class TransactionService {
         return transactionDoa.deleteTransaction(id);
     }
 
-    public int getUniqueTransactionId(){
-        List<Transaction> transactionList = selectAllTransactions();
-
-        if(transactionList.size() == 0)
-            return 1;
-
-        return transactionList.get(transactionList.size() - 1).getId() + 1;
+    public int getNewId(){
+        return transactionDoa.getUniqueId();
     }
 
     public List<Transaction> selectAllTransactionBetween(LocalDate dateOne, LocalDate  dateTwo, int id){
