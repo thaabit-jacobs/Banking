@@ -5,10 +5,15 @@ import net.banking.models.Account;
 import net.banking.models.Transaction;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 
+import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.*;
 
 public class AccountService {
     private final AccountDoaImpl accountDoa = new AccountDoaImpl();
+
+    public AccountService() throws URISyntaxException, SQLException {
+    }
 
     public boolean insertAccount(Account account){
         return accountDoa.insertAccount(account);

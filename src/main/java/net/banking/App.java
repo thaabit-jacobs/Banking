@@ -28,8 +28,7 @@ public class App
         return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
     }
 
-    public static void main( String[] args )
-    {
+    public static void main( String[] args ) throws URISyntaxException, SQLException {
 
         port(getHerokuAssignedPort());
 
