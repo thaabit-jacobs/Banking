@@ -7,6 +7,11 @@ import net.banking.service.AccountService;
 import net.banking.service.TransactionService;
 import net.banking.service.UserService;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -15,7 +20,6 @@ import static spark.Spark.staticFiles;
 
 public class App
 {
-
     static int getHerokuAssignedPort() {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (processBuilder.environment().get("PORT") != null) {
