@@ -4,11 +4,16 @@ import net.banking.doa.user.UserDoaImpl;
 import net.banking.models.Account;
 import net.banking.models.User;
 
+import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class UserService {
 
     private final UserDoaImpl userDoaImpl = new UserDoaImpl();
+
+    public UserService() throws URISyntaxException, SQLException {
+    }
 
     public boolean insertUser(User user){
        return userDoaImpl.insertUser(user);
