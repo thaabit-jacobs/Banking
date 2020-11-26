@@ -94,7 +94,6 @@ public class Controller {
             return "";
         }));
 
-        //DELETE USER
 
         get("/user/logout", ((request, response) -> {
             userEmail = null;
